@@ -5,6 +5,10 @@ echo "Deploy PDxF Backend Server"
 Front_REPOSITORY="https://github.com/BoB11-BolockChain/frontend.git"
 Back_REPOSITORY="https://github.com/BoB11-BolockChain/backend.git"
 
+git clone $Front_REPOSITORY
+git clone $Back_REPOSITORY
+
+
 echo "apt update"
 apt update
 
