@@ -8,7 +8,6 @@ Back_REPOSITORY="https://github.com/BoB11-BolockChain/backend.git"
 git clone $Front_REPOSITORY
 git clone $Back_REPOSITORY
 
-
 echo "apt update"
 apt update
 
@@ -30,7 +29,7 @@ echo "Install sqlite3 database..."
 if which sqlite3 > /dev/null; then
   echo "sqlite3 already installed."
 else
-  apt install sqlite3
+  echo ".q" | apt install sqlite3
 fi
 
 echo "Import database schema..." 
@@ -70,14 +69,6 @@ cp ./xstartup ~/.vnc/xstartup   # 그놈 데스크탑 정보 pdxf폴더에서 �
 chmod +x ~/.vnc/xstartup
 
 cd /usr/share/novnc; sudo openssl req -x509 -nodes -newkey rsa:2048 -keyout self.pem -out self.pem -days 365
-echo "KR"
-echo "--"
-echo "Seoul"
-echo "pdxf"
-echo "pdxf"
-echo "pdxf"
-echo "pdxf"
-
 cd /usr/share/novnc; ./utils/launch.sh --vnc localhost:5901 --ssl-onl
 
 echo "python3 install..."
@@ -91,7 +82,7 @@ echo "pip install..."
 if which pip > /dev/null; then
   echo "pip3 already installed."
 else
-  apt install pip
+  apt install python3-pip
 fi
 
 # Caldera install
