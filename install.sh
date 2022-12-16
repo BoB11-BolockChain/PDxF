@@ -83,6 +83,13 @@ else
   apt install python3.8.10
 fi
 
+echo "pip install..."
+if which pip > /dev/null; then
+  echo "pip3 already installed."
+else
+  apt install pip
+fi
+
 # Caldera install
 echo "Caldera install..."
 git clone https://github.com/mitre/caldera.git --recursive
@@ -90,14 +97,6 @@ cd caldera/plugins
 rm -rf sandcat
 git clone https://github.com/mitre/sandcat.git
 cd ..
-pip3 install aiohttp-apispec
-pip3 install -r requirements.txt
-pip3 install aiohttp_jinja2
-pip3 install aiohttp_security
-pip3 install marshmallow-enum
-pip3 install aiohttp-session
-pip3 install ldap3
-pip3 install websockets
 python3 server.py --insecure
 
 echo "Done"
