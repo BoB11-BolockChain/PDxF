@@ -11,6 +11,10 @@ git clone $Back_REPOSITORY
 echo "apt update"
 apt update
 
+
+
+
+
 echo "Install Golang..."
 if which go > /dev/null; then
   echo "Golang already installed."
@@ -40,7 +44,42 @@ echo "Install Docker..."
 if which docker > /dev/null; then
   echo "Docker already installed."
 else
-  apt install docker
+  echo "y" | apt install docker
+fi
+
+echo "Install NginX"
+if which nginx > /dev/null; then
+  echo "NginX already installed."
+else
+  apt install nginx
+  currentPath=$(pwd)
+  buildRoot="$currentPath+/build"
+  sed 's/{{root}}/$buildRoot/g' pdxf.conf > /etc/nginx/sites-available/newpdxf.conf
+  ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/myapp.conf
+fi
+
+echo "Instlall curl"
+if which curl > /dev/null; then
+  echo "curl already installed."
+else
+  echo "y" | apt install curl
+fi
+  echo "Install React.JS"
+
+if which node > /dev/null; then
+  echo "node already installed."
+else
+  curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+  sudo apt install npm
+  sudo apt-get install build-essential
+  npm install -g create-react-app
+  create-react-app hello-react
+  cd frontend
+  npm install
+  npm install @ant-design/icons --save-dev
+  npm run build
+  cd ..
 fi
 
 echo "Install libvirt..."
@@ -63,9 +102,10 @@ else
 fi
 
 echo "Install novnc..."
-tigervnc-standalone-server tigervnc-xorg-extension \
-novnc websockify 
-cp ./xstartup ~/.vnc/xstartup   # 그놈 데스크탑 정보 pdxf폴더에서 옮기는 작업 진행 넣어야 함
+sudo apt install \
+	tigervnc-standalone-server tigervnc-xorg-extension \
+	novnc websockify 
+cp ./xstartup ~/.vnc/xstartup
 chmod +x ~/.vnc/xstartup
 
 cd /usr/share/novnc; sudo openssl req -x509 -nodes -newkey rsa:2048 -keyout self.pem -out self.pem -days 365
@@ -82,13 +122,17 @@ echo "pip install..."
 if which pip > /dev/null; then
   echo "pip3 already installed."
 else
-  apt-get install python3-pip
+  echo "y" | apt-get install python3-pip
 fi
+
+#ssh pass 설치 해야 함
 
 # Caldera install
 echo "Caldera install..."
 git clone https://github.com/mitre/caldera.git --recursive
-cd caldera/plugins
+cd caldera
+pip3 install -r requirements.txt
+cd plugins
 rm -rf sandcat
 git clone https://github.com/mitre/sandcat.git
 cd ..
