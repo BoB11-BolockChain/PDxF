@@ -82,7 +82,7 @@ echo "pip install..."
 if which pip > /dev/null; then
   echo "pip3 already installed."
 else
-  apt install python3-pip
+  apt-get install python3-pip
 fi
 
 # Caldera install
